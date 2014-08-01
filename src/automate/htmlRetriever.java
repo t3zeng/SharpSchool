@@ -40,7 +40,8 @@ public class htmlRetriever {
                 String fileloc = "/UserFiles/Servers";
                 for(int i=3;i<=slashNum;i++){
                                 fileloc += "/"+storageLoc.split("/")[i];
-                }                                     
+                }     
+          
                 doc = Jsoup.parse(src);
                                                                 
                 pageTitle = doc.title();
@@ -51,16 +52,17 @@ public class htmlRetriever {
                 //grabs the old website without anything after the first /
                 String[] parts=website.split("/");
        		 	String oldStorage="";
+       		 	String newFilename;
        		 	for(int i=0;i<3;i++)
        		 		oldStorage+=parts[i]+"/";
-       		 	String oldDomain = website.substring(0, website.lastIndexOf("/")+1);
+       		 //	String oldDomain = website.substring(0, website.lastIndexOf("/")+1);
                 //filter code to be good
                 String usefulCode=doc.getElementById(elementID).html();
                 if(!doc.getElementsByTag("a").attr("href").startsWith(".."))
                 {
                 	for(int file=0;file<doc.getElementsByTag("a").size();file++)
                 	{
-                        String relativelink = doc.getElementsByTag("a").get(file).attr("href");
+                        String relativelink = doc.getElementsByTag("a").get(file).attr("href");     
                         if(relativelink.endsWith("jpg")||
                                          relativelink.endsWith("png")||
                                          relativelink.endsWith("gif")||
@@ -71,18 +73,11 @@ public class htmlRetriever {
                                          relativelink.endsWith("docx")||
                                          relativelink.endsWith("jpeg"))
                         {
-							        String newFilename = relativelink.substring(relativelink.lastIndexOf('/')+1);
-							        if(!doc.getElementsByTag("a").get(file).attr("href").contains(oldStorage)&&doc.getElementsByTag("a").get(file).attr("href").contains("http"))
-							        {
-							        	System.out.println(doc.getElementsByTag("a").get(file).attr("href"));
-								        bus.download(doc.getElementsByTag("a").get(file).attr("href"));
-							        }
-							        else
-							        {
-								        System.out.println(oldStorage+doc.getElementsByTag("a").get(file).attr("href"));
-								        bus.download(oldStorage+doc.getElementsByTag("a").get(file).attr("href"));
-							        }
-							        doc.getElementsByTag("a").get(file).attr("href",fileloc+"/"+newFilename);
+                        	String fullLink = UrlParser.parse(website, relativelink);
+                        	newFilename = relativelink.substring(relativelink.lastIndexOf('/')+1);
+							       System.out.println(doc.getElementsByTag("a").get(file).attr("href"));
+								     bus.download(fullLink);
+							     doc.getElementsByTag("a").get(file).attr("href",fileloc+"/"+newFilename);
                         }
 
                 	}
@@ -99,17 +94,10 @@ public class htmlRetriever {
                         relativelink.endsWith("jpeg"))
                         {
                         
-						        String newFilename = relativelink.substring(relativelink.lastIndexOf('/')+1);
-						        if(!doc.getElementsByTag("img").get(img).attr("src").contains(oldStorage)&&doc.getElementsByTag("img").get(img).attr("src").contains("http"))
-						        {
-						        	System.out.println(doc.getElementsByTag("img").get(img).attr("src"));
-							        bus.download((doc.getElementsByTag("img").get(img).attr("src")).replaceAll(oldStorage+oldStorage, oldStorage));
-						        }
-						        else
-						        {
-						        	System.out.println(oldStorage+doc.getElementsByTag("img").get(img).attr("src"));
-							        bus.download((oldStorage+doc.getElementsByTag("img").get(img).attr("src")).replaceAll(oldStorage+oldStorage, oldStorage));
-						        }
+						        newFilename = relativelink.substring(relativelink.lastIndexOf('/')+1);
+						        String fullLink = UrlParser.parse(website, relativelink);
+						        System.out.println(doc.getElementsByTag("img").get(img).attr("src"));
+							    bus.download(fullLink);
 						        doc.getElementsByTag("img").get(img).attr("src", fileloc+"/"+newFilename);
 
                         }
