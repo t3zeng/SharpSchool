@@ -10,7 +10,7 @@ import org.dom4j.DocumentException;
 
 
 public class BotGUI {
-///blah blah testing
+//asdf
     public BotGUI()
     {
     	final JFrame parent = new JFrame("TianBot");
