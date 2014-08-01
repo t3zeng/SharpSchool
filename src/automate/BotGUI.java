@@ -10,19 +10,21 @@ import org.dom4j.DocumentException;
 
 
 public class BotGUI {
-//asdf
     public BotGUI()
     {
+    	//sets title of the frame and initializes
     	final JFrame parent = new JFrame("TianBot");
         parent.setSize(400, 200);
         parent.setVisible(true);
         parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //parent.pack();
         
+        //this is the start button's panel that prevents the button from covering the whole frame
         JPanel buttonPane = new JPanel();
         buttonPane.setSize(300, 60);
         buttonPane.setLocation(0,120);
         
+        //initializes the button
         JButton button = new JButton();
         button.setText("Start");
         button.setSize(100,20);
@@ -33,6 +35,7 @@ public class BotGUI {
         buttonPane.add(button);
         
         
+        //adds the textfields for all of the inputs in the gui
         final JTextField news = new JTextField();
         news.setSize(350, 20);
         news.setLocation(0, 30);
@@ -59,7 +62,7 @@ public class BotGUI {
        
        button.addActionListener(new java.awt.event.ActionListener() {
 
-    	    @Override
+    	    //action listener activates this
     	    public void actionPerformed(java.awt.event.ActionEvent evt) {
     	    try {
 				new Setup(news.getText(), contentID.getText(), storage.getText());
