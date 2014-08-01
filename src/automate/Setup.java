@@ -18,7 +18,8 @@ public class Setup {
 		driver.manage().window().setSize(new Dimension(1920,1080));
 		String username = "tian.zeng";
 		String password = "1qa2ws3ed";
-		String storage = "/UserFiles/Servers/Server_"+s+"/File/migration";
+		String storageFile = "/UserFiles/Servers/Server_"+s+"/File/migration";
+		String storageImage = "/UserFiles/Servers/Server_"+s+"/File/migration";
 		
 		driver.get(n);
 		//driver.findElement(By.linkText("Login"));
@@ -39,7 +40,7 @@ public class Setup {
 			if(info.getURL(j).contains(oldSite))
 			{
 				System.out.println("Retrieving old data");
-				htmlRetriever old = new htmlRetriever(info.getURL(j), i, storage);
+				htmlRetriever old = new htmlRetriever(info.getURL(j), i, storageFile, storageImage);
 				
 				System.out.println("Old data retrieved. Implementing data to new site...");
 				SharpSchoolImplementer newer = new SharpSchoolImplementer(old.getHTMLContent(), old.pageTitle);
