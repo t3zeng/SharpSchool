@@ -72,7 +72,6 @@ public class htmlRetriever {
                                          relativelink.endsWith("jpeg"))
                         {
 							        String newFilename = relativelink.substring(relativelink.lastIndexOf('/')+1);
-							        System.out.println(doc.getElementsByTag("a").get(file).attr("href")+" "+doc.getElementsByTag("a").get(file).attr("href").contains(oldStorage));
 							        if(!doc.getElementsByTag("a").get(file).attr("href").contains(oldStorage)&&doc.getElementsByTag("a").get(file).attr("href").contains("http"))
 							        {
 							        	System.out.println(doc.getElementsByTag("a").get(file).attr("href"));
@@ -101,7 +100,6 @@ public class htmlRetriever {
                         {
                         
 						        String newFilename = relativelink.substring(relativelink.lastIndexOf('/')+1);
-						        System.out.println(doc.getElementsByTag("img").get(img).attr("src")+" "+doc.getElementsByTag("img").get(img).attr("src").contains(oldStorage));
 						        if(!doc.getElementsByTag("img").get(img).attr("src").contains(oldStorage)&&doc.getElementsByTag("img").get(img).attr("src").contains("http"))
 						        {
 						        	System.out.println(doc.getElementsByTag("img").get(img).attr("src"));
