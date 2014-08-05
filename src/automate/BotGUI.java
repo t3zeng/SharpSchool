@@ -26,7 +26,7 @@ public class BotGUI {
         parent.setSize(400, 300);
         BufferedImage img = null;
         try {
-	            img = ImageIO.read(new File("TianBotIcon.jpg"));
+	            img = ImageIO.read(new File("assets/TianBotIcon.jpg"));
 	        } catch (IOException e) {
         }
         parent.setIconImage(img);

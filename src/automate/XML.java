@@ -19,7 +19,7 @@ public class XML {
 	}
 	public XML() throws IOException, DocumentException
 	{
-		File file = new File("file.txt");
+		File file = new File("assets/file.txt");
 		ArrayList stack = new ArrayList();
 		
 		
