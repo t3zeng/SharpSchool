@@ -29,7 +29,7 @@ public class SharpSchoolImplementer {
     public void run(WebDriver driver) throws InterruptedException
     {
         
-    	WebDriverWait wait = new WebDriverWait(driver, 1);
+    	WebDriverWait wait = new WebDriverWait(driver, 10);
     	wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText("Page Properties")));
         //navigate to the creation page
         driver.findElement(By.linkText("Page Properties")).click();
@@ -55,9 +55,11 @@ public class SharpSchoolImplementer {
 	            Thread.sleep(2000);
 	            driver.switchTo().parentFrame();
 	        	titleQuery = driver.findElements(By.tagName("input")).get(8);
-	        	titleQuery.sendKeys(" (Duplicate Code: "+(int)(Math.random()*9999+1)+")");
+	        	titleQuery.clear();
+	        	titleQuery.sendKeys("(Duplicate Code: "+(int)(Math.random()*9999+1)+")");
 	        	driver.findElement(By.xpath("//img[@title='Generate Name']"));
 	            driver.findElements(By.tagName("input")).get(14).click(); //12,14,15
+	            Thread.sleep(1000);
 	            driver.findElement(By.className("reMode_html")).click();
         }
         

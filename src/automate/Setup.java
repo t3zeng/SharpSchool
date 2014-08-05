@@ -12,8 +12,9 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 public class Setup {
 	
 	
-	public Setup(String n, String i, String s) throws IOException, DocumentException, InterruptedException
+	public Setup(String n, String i, String s, String p) throws IOException, DocumentException, InterruptedException
 	{
+		//initializes the driver that does everything
 		WebDriver driver = new FirefoxDriver();
 		driver.manage().window().setSize(new Dimension(1920,1080));
 		String username = "tian.zeng";
@@ -37,39 +38,8 @@ public class Setup {
 		{
 			System.out.println(info.getURL(j));
 			Thread.sleep(200);
-			if(info.getURL(j).contains(oldSite))
-			{
-				System.out.println("Retrieving old data");
-				htmlRetriever old = new htmlRetriever(info.getURL(j), i, storageFile, storageImage);
-				
-				System.out.println("Old data retrieved. Implementing data to new site...");
-				SharpSchoolImplementer newer = new SharpSchoolImplementer(old.getHTMLContent(), old.pageTitle);
-				newer.run(driver);
-				
-				try
-				{
-					if(info.getWeight(j) == info.getWeight(j-1))
-					{
-						driver.navigate().back();
-						driver.navigate().back();
-						driver.navigate().back();
-					}
-					if(info.getWeight(j) > info.getWeight(j-1))
-					{
-						driver.navigate().back();
-						driver.navigate().back();
-						driver.navigate().back();
-						driver.navigate().back();
-						driver.navigate().back();
-						driver.navigate().back();
-					}
-				}
-				catch(Exception e)
-				{
-					
-				}
-			}
-			else
+			
+			if(!info.getURL(j).contains(oldSite) && info.getURL(j).contains("http"))
 			{
 				new ExternalPage(driver, info.getURL(j));
 				
@@ -82,6 +52,39 @@ public class Setup {
 					}
 				}
 				catch(Exception e){}
+			}
+			else
+			{
+				System.out.println("Retrieving old data");
+				htmlRetriever old = new htmlRetriever(info.getURL(j), i, storageFile, storageImage, p);
+				
+				System.out.println("Old data retrieved. Implementing data to new site...");
+				SharpSchoolImplementer newer = new SharpSchoolImplementer(old.getHTMLContent(), old.pageTitle);
+				newer.run(driver);
+				
+				try
+				{
+					System.out.println("Current weight:"+info.getWeight(j)+"\nNext weight:"+info.getWeight(j-1));
+					if(info.getWeight(j) == info.getWeight(j-1))
+					{
+						driver.navigate().back();
+						driver.navigate().back();
+						driver.navigate().back();
+					}
+					if(info.getWeight(j) > info.getWeight(j-1))
+					{
+						for(int k=0;k<=(info.getWeight(j)-info.getWeight(j-1));k++)
+						{
+							driver.navigate().back();
+							driver.navigate().back();
+							driver.navigate().back();
+						}
+					}
+				}
+				catch(Exception e)
+				{
+					
+				}
 			}
 			
 			System.out.println("Page complete");

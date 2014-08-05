@@ -14,20 +14,17 @@ public class htmlRetriever {
 	FileBus bus = new FileBus();
 
 	public static void main(String[] args) {
-		// new
-		new htmlRetriever("http://www.pinehill.k12.nj.us/index.php/glenn-school-main-menu","maincolumn_full","/UserFiles/Servers/Server_43687/File/migration/", "/UserFiles/Servers/Server_27285/Image/migration/");
+		new htmlRetriever("url","maincolumn_full","/UserFiles/Servers/Server_27593/File/migration", "/UserFiles/Servers/Server_27593/Image/migration", "6");
 	}
 
-	public htmlRetriever(String url, String contentID, String storageFile,
-			String storageImage) {
+	public htmlRetriever(String url, String contentID, String storageFile, String storageImage, String prod) {
 		// WebDriver drive = new HtmlUnitDriver();
 		// WebDriver drive = new FirefoxDriver();
-		htmlContent = pageSource(url, drive, contentID, storageFile,
-				storageImage);
+		htmlContent = pageSource(url, drive, contentID, storageFile, storageImage, prod);
 	}
 
 	public String pageSource(String website, WebDriver oldStuff,
-			String elementID, String storageFile, String storageImage) {
+			String elementID, String storageFile, String storageImage, String prod) {
 
 		try {
 			System.out.println(website);
@@ -61,7 +58,7 @@ public class htmlRetriever {
 			String usefulCode = doc.getElementById(elementID).html();
 
 			for (int file = 0; file < doc.getElementsByTag("a").size(); file++) {
-				String relativelink = doc.getElementsByTag("a").get(file).attr("href");
+				String relativelink = doc.getElementsByTag("a").get(file).attr("href").toLowerCase();
 				if (relativelink.endsWith("jpg")
 						|| relativelink.endsWith("png")
 						|| relativelink.endsWith("gif")
@@ -83,12 +80,11 @@ public class htmlRetriever {
 
 			for (int img = 0; img < doc.getElementsByTag("img").size(); img++) {
 
-				String relativelink = doc.getElementsByTag("img").get(img).attr("src");
+				String relativelink = doc.getElementsByTag("img").get(img).attr("src").toLowerCase();
 				if (relativelink.endsWith("jpg")
 						|| relativelink.endsWith("png")
 						|| relativelink.endsWith("gif")
 						|| relativelink.endsWith("jpeg")) {
-
 					newFilename = relativelink.substring(relativelink.lastIndexOf('/') + 1);
 					String fullLink = UrlParser.parse(website, relativelink);
 					System.out.println(fullLink);
@@ -98,26 +94,38 @@ public class htmlRetriever {
 				}
 
 			}
+			
+			for (int input = 0; input < doc.getElementsByTag("input").size(); input++) {
+				String relativelink = doc.getElementsByTag("input").get(input).attr("src").toLowerCase();
+				if (relativelink.endsWith("jpg")
+						|| relativelink.endsWith("png")
+						|| relativelink.endsWith("gif")
+						|| relativelink.endsWith("jpeg")) {
+
+					newFilename = relativelink.substring(relativelink.lastIndexOf('/') + 1);
+					String fullLink = UrlParser.parse(website, relativelink);
+					System.out.println(fullLink);
+					bus.download(fullLink);
+					doc.getElementsByTag("input").get(input).attr("src", imageloc + "/" + newFilename);
+					
+				}
+
+			}
 
 			doc.getElementsByAttribute("class").removeAttr("class");
 			doc.getElementsByAttribute("style").removeAttr("style");
-			doc.getElementsMatchingOwnText(
-					"(.*javascript.*| 0x0| 0x1| ContentType| 0x01| 898)")
-					.remove();
+			doc.getElementsByAttribute("script").removeAttr("script");
 
-			// usefulCode = usefulCode.replaceAll("class=\".*?\"", "");
-			// usefulCode = usefulCode.replaceAll("style=\".*?\"", "");
-			// usefulCode = usefulCode.replaceAll("&nbsp;&nbsp;", "");
-			// usefulCode =
+			
 			// usefulCode.replaceAll("<script.*(\n.*?){0,}</script>", "");
 			// usefulCode = usefulCode.replaceAll("href=\"../", "href=\"");
-			// usefulCode = usefulCode.replaceAll("&amp;","&");
 
 			usefulCode = doc.getElementById(elementID).html();
+			usefulCode = usefulCode.replaceAll("&nbsp;&nbsp;", "");
+			usefulCode = usefulCode.replaceAll("<p>&nbsp;</p>", "");
 			usefulCode = usefulCode.replaceAll(oldStorage + oldStorage,
 					oldStorage);
-			uploader(storageFile.replaceAll("/UserFiles/Servers/Server_", "")
-					.replaceAll("/File/migration", ""));
+			uploader(storageFile.replaceAll("/UserFiles/Servers/Server_", "").replaceAll("/File/migration", ""), prod);
 			return usefulCode;
 		} catch (Exception e) {
 			System.out.println("Invalid Site: Creating Blank Page");
@@ -130,13 +138,27 @@ public class htmlRetriever {
 		return htmlContent;
 	}
 
-	public void uploader(String serverNumber) {
-		bus.connect("155.254.144.7", "Gordon.Duff", "fr&4Eqe",
-				"/Production 6/Server_" + serverNumber + "/File/migration");
-		bus.upload();
-		bus.connect("155.254.144.7", "Gordon.Duff", "fr&4Eqe",
-				"/Production 6/Server_" + serverNumber + "/Image/migration");
-		bus.upload();
+	public void uploader(String serverNumber, String prod) {
+		if(prod.equals("6")||prod.equals("5"))
+		{
+			bus.connect("155.254.144.7", "Gordon.Duff", "fr&4Eqe",
+					"/Production "+prod+"/Server_" + serverNumber + "/File/migration");
+			bus.upload();
+			bus.connect("155.254.144.7", "Gordon.Duff", "fr&4Eqe",
+					"/Production "+prod+"/Server_" + serverNumber + "/Image/migration");
+			bus.upload();
+		}
+		else if(prod.equals("4")||prod.equals("3")||prod.equals("2")||prod.equals("1"))
+		{
+			bus.connect("ftp.sharpschool.com", "Gordon.Duff", "g$du77",
+					"/Production "+prod+"/Server_" + serverNumber + "/File/migration");
+			bus.upload();
+			bus.connect("ftp.sharpschool.com", "Gordon.Duff", "g$du77",
+					"/Production "+prod+"/Server_" + serverNumber + "/Image/migration");
+			bus.upload();
+		}
+		else
+			System.out.println("Invalid upload location");
 	}
 
 }
