@@ -58,7 +58,7 @@ public class htmlRetriever {
 			String usefulCode = doc.getElementById(elementID).html();
 
 			for (int file = 0; file < doc.getElementsByTag("a").size(); file++) {
-				String relativelink = doc.getElementsByTag("a").get(file).attr("href").toLowerCase();
+				String relativelink = doc.getElementsByTag("a").get(file).attr("href");
 				if (relativelink.endsWith("jpg")
 						|| relativelink.endsWith("png")
 						|| relativelink.endsWith("gif")
@@ -67,7 +67,16 @@ public class htmlRetriever {
 						|| relativelink.endsWith("pptx")
 						|| relativelink.endsWith("doc")
 						|| relativelink.endsWith("docx")
-						|| relativelink.endsWith("jpeg")) {
+						|| relativelink.endsWith("jpeg")
+						|| relativelink.endsWith("JPG")
+						|| relativelink.endsWith("PNG")
+						|| relativelink.endsWith("GIF")
+						|| relativelink.endsWith("PDF")
+						|| relativelink.endsWith("PPT")
+						|| relativelink.endsWith("PPTX")
+						|| relativelink.endsWith("DOC")
+						|| relativelink.endsWith("DOCX")
+						|| relativelink.endsWith("JPEG")) {
 					String fullLink = UrlParser.parse(website, relativelink);
 					newFilename = relativelink.substring(relativelink.lastIndexOf('/') + 1);
 					
@@ -80,11 +89,15 @@ public class htmlRetriever {
 
 			for (int img = 0; img < doc.getElementsByTag("img").size(); img++) {
 
-				String relativelink = doc.getElementsByTag("img").get(img).attr("src").toLowerCase();
+				String relativelink = doc.getElementsByTag("img").get(img).attr("src");
 				if (relativelink.endsWith("jpg")
 						|| relativelink.endsWith("png")
 						|| relativelink.endsWith("gif")
-						|| relativelink.endsWith("jpeg")) {
+						|| relativelink.endsWith("jpeg")
+						|| relativelink.endsWith("JPG")
+						|| relativelink.endsWith("PNG")
+						|| relativelink.endsWith("GIF")
+						|| relativelink.endsWith("JPEG")) {
 					newFilename = relativelink.substring(relativelink.lastIndexOf('/') + 1);
 					String fullLink = UrlParser.parse(website, relativelink);
 					System.out.println(fullLink);
@@ -96,11 +109,15 @@ public class htmlRetriever {
 			}
 			
 			for (int input = 0; input < doc.getElementsByTag("input").size(); input++) {
-				String relativelink = doc.getElementsByTag("input").get(input).attr("src").toLowerCase();
+				String relativelink = doc.getElementsByTag("input").get(input).attr("src");
 				if (relativelink.endsWith("jpg")
 						|| relativelink.endsWith("png")
 						|| relativelink.endsWith("gif")
-						|| relativelink.endsWith("jpeg")) {
+						|| relativelink.endsWith("jpeg")
+						|| relativelink.endsWith("JPG")
+						|| relativelink.endsWith("PNG")
+						|| relativelink.endsWith("GIF")
+						|| relativelink.endsWith("JPEG")) {
 
 					newFilename = relativelink.substring(relativelink.lastIndexOf('/') + 1);
 					String fullLink = UrlParser.parse(website, relativelink);

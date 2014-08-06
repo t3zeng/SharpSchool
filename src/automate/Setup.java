@@ -21,7 +21,7 @@ public class Setup {
 		String password = "1qa2ws3ed";
 		String storageFile = "/UserFiles/Servers/Server_"+s+"/File/migration";
 		String storageImage = "/UserFiles/Servers/Server_"+s+"/File/migration";
-		
+				
 		driver.get(n);
 		//driver.findElement(By.linkText("Login"));
 		//driver.findElement(By.xpath("//a[@href='/gateway/Login.aspx?returnUrl=%2f']")).click();
