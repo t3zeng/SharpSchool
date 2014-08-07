@@ -20,7 +20,7 @@ public class Setup {
 		String username = "tian.zeng";
 		String password = "1qa2ws3ed";
 		String storageFile = "/UserFiles/Servers/Server_"+s+"/File/migration";
-		String storageImage = "/UserFiles/Servers/Server_"+s+"/File/migration";
+		String storageImage = "/UserFiles/Servers/Server_"+s+"/Image/migration";
 				
 		driver.get(n);
 		//driver.findElement(By.linkText("Login"));
@@ -65,21 +65,14 @@ public class Setup {
 				try
 				{
 					System.out.println("Current weight:"+info.getWeight(j)+"\nNext weight:"+info.getWeight(j-1));
-					if(info.getWeight(j) == info.getWeight(j-1))
-					{
-						driver.navigate().back();
-						driver.navigate().back();
-						driver.navigate().back();
-					}
-					if(info.getWeight(j) > info.getWeight(j-1))
-					{
+					
 						for(int k=0;k<=(info.getWeight(j)-info.getWeight(j-1));k++)
 						{
 							driver.navigate().back();
 							driver.navigate().back();
 							driver.navigate().back();
 						}
-					}
+					
 				}
 				catch(Exception e)
 				{

@@ -14,7 +14,7 @@ public class htmlRetriever {
 	FileBus bus = new FileBus();
 
 	public static void main(String[] args) {
-		new htmlRetriever("url","maincolumn_full","/UserFiles/Servers/Server_27593/File/migration", "/UserFiles/Servers/Server_27593/Image/migration", "6");
+		new htmlRetriever("http://www.johnadamsms.new.rschooltoday.com/page/3045/category/0/slide/2","maincol","/UserFiles/Servers/Server_3086345/File/migration", "/UserFiles/Servers/Server_3086345/Image/migration", "5");
 	}
 
 	public htmlRetriever(String url, String contentID, String storageFile, String storageImage, String prod) {
