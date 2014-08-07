@@ -27,10 +27,10 @@ public class SharpSchoolImplementer {
     }
     
     
-    public void run(WebDriver driver) throws InterruptedException
+    public void run(WebDriver driver, WebDriverWait wait) throws InterruptedException
     {
         
-    	WebDriverWait wait = new WebDriverWait(driver, 10);
+    	
     	wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText("Page Properties")));
         //navigate to the creation page
         driver.findElement(By.linkText("Page Properties")).click();

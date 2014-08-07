@@ -1,12 +1,15 @@
 package automate;
 
 import java.io.IOException;
+
 import org.dom4j.DocumentException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 
 public class Setup {
@@ -16,6 +19,7 @@ public class Setup {
 	{
 		//initializes the driver that does everything
 		WebDriver driver = new FirefoxDriver();
+		WebDriverWait wait = new WebDriverWait(driver, 10);
 		driver.manage().window().setSize(new Dimension(1920,1080));
 		String username = "tian.zeng";
 		String password = "1qa2ws3ed";
@@ -25,11 +29,15 @@ public class Setup {
 		driver.get(n);
 		//driver.findElement(By.linkText("Login"));
 		//driver.findElement(By.xpath("//a[@href='/gateway/Login.aspx?returnUrl=%2f']")).click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("admin_menu")));
 		driver.findElement(By.className("admin_menu")).click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ctl00_ContentPlaceHolder1_txtUsername")));
 		WebElement userQuery = driver.findElement(By.id("ctl00_ContentPlaceHolder1_txtUsername"));
         userQuery.sendKeys(username);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ctl00_ContentPlaceHolder1_txtPassword")));
         WebElement passwordQuery = driver.findElement(By.id("ctl00_ContentPlaceHolder1_txtPassword"));
         passwordQuery.sendKeys(password);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ctl00_ContentPlaceHolder1_btnLogin")));
         driver.findElement(By.id("ctl00_ContentPlaceHolder1_btnLogin")).click();
 		
 		XML info = new XML();
@@ -37,11 +45,10 @@ public class Setup {
 		for(int j = info.getIndex()-1; j >= 0; j--)
 		{
 			System.out.println(info.getURL(j));
-			Thread.sleep(200);
 			
 			if(!info.getURL(j).contains(oldSite) && info.getURL(j).contains("http"))
 			{
-				new ExternalPage(driver, info.getURL(j));
+				new ExternalPage(driver, info.getURL(j), wait);
 				
 				try
 				{
@@ -60,7 +67,7 @@ public class Setup {
 				
 				System.out.println("Old data retrieved. Implementing data to new site...");
 				SharpSchoolImplementer newer = new SharpSchoolImplementer(old.getHTMLContent(), old.pageTitle);
-				newer.run(driver);
+				newer.run(driver, wait);
 				
 				try
 				{
