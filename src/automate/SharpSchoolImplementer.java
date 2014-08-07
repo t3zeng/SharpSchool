@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.UnhandledAlertException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -33,30 +34,35 @@ public class SharpSchoolImplementer {
     	wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText("Page Properties")));
         //navigate to the creation page
         driver.findElement(By.linkText("Page Properties")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText("Add New Page")));
         driver.findElement(By.linkText("Add New Page")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText("Content Space Page")));
         driver.findElement(By.linkText("Content Space Page")).click();       
 
         //Puts in the information
         
         //WebElement titleQuery = driver.findElement(By.id("ctl00_ContentPlaceHolder1_ctl03_txtTitle"));
-        Thread.sleep(1000);
-        WebElement titleQuery = driver.findElements(By.tagName("input")).get(8);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@size='60']")));
+//        WebElement titleQuery = driver.findElements(By.tagName("input")).get(8);
+        WebElement titleQuery = driver.findElement(By.xpath("//input[@size='60']"));
         titleQuery.sendKeys(title);
         try
         {
         	driver.findElements(By.tagName("input")).get(14).click(); //12,14,15
+        	wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("reMode_html")));
         	driver.findElement(By.className("reMode_html")).click();
         }
-        catch (StaleElementReferenceException|NoSuchElementException|UnhandledAlertException e)
+        catch (StaleElementReferenceException|NoSuchElementException|UnhandledAlertException|TimeoutException e)
         {
 	        	driver.navigate().refresh();
 	        	Alert alert = driver.switchTo().alert(); 
 	            alert.accept();
-	            Thread.sleep(2000);
+	            Thread.sleep(1000);
 	            driver.switchTo().parentFrame();
-	        	titleQuery = driver.findElements(By.tagName("input")).get(8);
+	        	//titleQuery = driver.findElements(By.tagName("input")).get(8);
+	        	titleQuery = driver.findElement(By.xpath("//input[@size='60']"));
 	        	titleQuery.clear();
-	        	titleQuery.sendKeys((int)(Math.random()*9999+1)+" "+title);
+	        	titleQuery.sendKeys("(Dupe: "+(int)(Math.random()*9999+1)+") "+title);
 	        	driver.findElement(By.xpath("//img[@title='Generate Name']"));
 	            driver.findElements(By.tagName("input")).get(14).click(); //12,14,15
 	            Thread.sleep(1000);
