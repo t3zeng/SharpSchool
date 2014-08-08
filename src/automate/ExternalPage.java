@@ -26,8 +26,8 @@ public class ExternalPage
 		        
 		        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@size='60']")));
 		        driver.findElement(By.xpath("//input[@size='60']")).sendKeys(titGrabber.getTitle());//9
-		        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@maxlength='100']")));
-		        driver.findElement(By.xpath("//input[@maxlength='100']")).sendKeys(titGrabber.getTitle());//10
+		        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@title='Generate Name']")));
+		        driver.findElement(By.xpath("//a[@title='Generate Name']")).click();//10
 		        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@size='50']")));
 		        driver.findElement(By.xpath("//input[@size='50']")).sendKeys(URL);//11
 		        driver.findElements(By.className("button")).get(0).click();

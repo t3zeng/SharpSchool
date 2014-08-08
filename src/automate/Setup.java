@@ -25,7 +25,7 @@ public class Setup {
 		String password = "1qa2ws3ed";
 		String storageFile = "/UserFiles/Servers/Server_"+s+"/File/migration";
 		String storageImage = "/UserFiles/Servers/Server_"+s+"/Image/migration";
-				
+		
 		driver.get(n);
 		//driver.findElement(By.linkText("Login"));
 		//driver.findElement(By.xpath("//a[@href='/gateway/Login.aspx?returnUrl=%2f']")).click();
@@ -42,23 +42,19 @@ public class Setup {
 		
 		XML info = new XML();
 		String oldSite = info.getURL(0).split("/")[2];
+		
+		//array to keep track of how much to press back
+		boolean[] isExternal = new boolean[info.getIndex()];
+		
 		for(int j = info.getIndex()-1; j >= 0; j--)
 		{
 			System.out.println(info.getURL(j));
+			System.out.println("Current weight:"+info.getWeight(j)+"\nNext weight:"+info.getWeight(j-1));
 			
 			if(!info.getURL(j).contains(oldSite) && info.getURL(j).contains("http"))
 			{
 				new ExternalPage(driver, info.getURL(j), wait);
-				
-				try
-				{
-					if(info.getWeight(j) > info.getWeight(j-1))
-					{
-						driver.navigate().back();
-						driver.navigate().back();
-					}
-				}
-				catch(Exception e){}
+				isExternal[j] = true;
 			}
 			else
 			{
@@ -68,24 +64,28 @@ public class Setup {
 				System.out.println("Old data retrieved. Implementing data to new site...");
 				SharpSchoolImplementer newer = new SharpSchoolImplementer(old.getHTMLContent(), old.pageTitle);
 				newer.run(driver, wait);
-				
-				try
+				isExternal[j] = false;
+			}
+			
+			//use the right number of backs
+			try
+			{
+				for(int k=0;k<=(info.getWeight(j)-info.getWeight(j-1));k++)
 				{
-					System.out.println("Current weight:"+info.getWeight(j)+"\nNext weight:"+info.getWeight(j-1));
-					
-						for(int k=0;k<=(info.getWeight(j)-info.getWeight(j-1));k++)
-						{
-							driver.navigate().back();
-							driver.navigate().back();
-							driver.navigate().back();
-						}
-					
-				}
-				catch(Exception e)
-				{
-					
+					if(isExternal[j+k])
+					{
+						driver.navigate().back();
+						driver.navigate().back();
+					}
+					else
+					{
+						driver.navigate().back();
+						driver.navigate().back();
+						driver.navigate().back();
+					}
 				}
 			}
+			catch(Exception e){}
 			
 			System.out.println("Page complete");
 		}

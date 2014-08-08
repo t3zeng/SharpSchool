@@ -65,7 +65,7 @@ public class SharpSchoolImplementer {
 	        	titleQuery.sendKeys("(Dupe: "+(int)(Math.random()*9999+1)+") "+title);
 	        	driver.findElement(By.xpath("//img[@title='Generate Name']"));
 	            driver.findElements(By.tagName("input")).get(14).click(); //12,14,15
-	            Thread.sleep(1000);
+	            wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("reMode_html")));
 	            driver.findElement(By.className("reMode_html")).click();
         }
         
