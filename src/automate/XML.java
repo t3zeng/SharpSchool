@@ -18,38 +18,6 @@ public class XML {
 		new XML();
 	}
 	
-//	public XML() throws IOException, DocumentException
-//	{
-//		File file = new File("assets/file.txt");
-//		ArrayList stack = new ArrayList();
-//		
-//		
-//		//Hashtable<Integer, String> siteTable = new Hashtable<Integer, String>();
-//		
-//		String xml="";
-//		DataInputStream istream = new DataInputStream(new FileInputStream(file));
-//		//System.out.println(istream.readLine());
-//		
-//		try(BufferedReader br = new BufferedReader(new FileReader(file))) {
-//		    for(String line; (line = br.readLine()) != null; ) {
-//		        // process the line.
-//		    	xml+=line+"\n";
-//		    	if(line.startsWith("<") && !line.startsWith("</"))
-//		    	{
-//		    		//new page at line
-//		    	}
-//		    	else if(line.startsWith("</"))
-//		    	{
-//		    		//back
-//		    	}
-//		    }
-//		    // line is not visible here.
-//		}
-//		for(int i=index-1;i>=0;i--)
-//			System.out.println(URL[i] + ", " +weight[i]);
-//		//System.out.println(xml);
-//	}
-	
 	public XML() throws IOException, DocumentException
 	{
 		File file = new File("assets/file.txt");

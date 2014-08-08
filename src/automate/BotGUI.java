@@ -21,7 +21,7 @@ public class BotGUI {
     public BotGUI()
     {
     	//sets title of the frame and initializes
-    	final JFrame parent = new JFrame("TianBot");
+    	final JFrame parent = new JFrame("TianBot v1.0");
         parent.setAlwaysOnTop(true);
         parent.setSize(400, 300);
         BufferedImage img = null;

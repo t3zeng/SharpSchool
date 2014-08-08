@@ -14,6 +14,29 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Setup {
 	
+    public static void main (String [] asdf)
+    {
+                    WebDriver name = new FirefoxDriver();
+                    name.get("http://rpschurchillhoover.ss5.sharpschool.com/cms/One.aspx?portalId=3084239&pageId=4332009&action=addTypedPage&parentId=4332009&pageType=Content+Space+Page");
+                    
+                    name.findElement(By.id("ctl00_ContentPlaceHolder1_txtUsername")).sendKeys("vincent.luong");
+                    name.findElement(By.id("ctl00_ContentPlaceHolder1_txtPassword")).sendKeys("sharppass");
+                    name.findElement(By.id("ctl00_ContentPlaceHolder1_btnLogin")).click();
+                    
+                    System.out.println(name.findElements(By.tagName("input")).size());
+//                    for(int i=0;i<name.findElements(By.tagName("input")).size();i++)
+//                    {
+//                                    try
+//                                    {
+//                                                    name.findElements(By.tagName("input")).get(i).sendKeys(i+"");
+//                                    }
+//                                    catch(Exception e)
+//                                    {
+//                                                    
+//                                    }
+//                    }
+    }
+
 	public Setup(String n, String i, String s, String p) throws IOException, DocumentException, InterruptedException
 	{
 		//initializes the driver that does everything
@@ -43,7 +66,6 @@ public class Setup {
 		String oldSite = info.getURL(0).split("/")[2];
 		
 		//array to keep track of how much to press back
-		boolean[] isExternal = new boolean[info.getIndex()];
 		
 		for(int j = info.getIndex()-1; j >= 0; j--)
 		{
@@ -60,7 +82,6 @@ public class Setup {
 			if(!info.getURL(j).contains(oldSite) && info.getURL(j).contains("http"))
 			{
 				new ExternalPage(driver, info.getURL(j), wait);
-				isExternal[j] = true;
 			}
 			else
 			{
@@ -70,7 +91,6 @@ public class Setup {
 				System.out.println("Old data retrieved. Implementing data to new site...");
 				SharpSchoolImplementer newer = new SharpSchoolImplementer(old.getHTMLContent(), old.pageTitle);
 				newer.run(driver, wait);
-				isExternal[j] = false;
 			}
 			
 			//use the right number of backs
@@ -78,16 +98,11 @@ public class Setup {
 			{
 				for(int k=0;k<=(info.getWeight(j)-info.getWeight(j-1));k++)
 				{
-					System.out.println(isExternal[j+k]);
-					if(isExternal[j+k])
+					driver.navigate().back();
+					driver.navigate().back();
+					System.out.println(driver.findElements(By.tagName("input")).size());
+					while(driver.findElements(By.tagName("input")).size()>10)
 					{
-						driver.navigate().back();
-						driver.navigate().back();
-					}
-					else
-					{
-						driver.navigate().back();
-						driver.navigate().back();
 						driver.navigate().back();
 					}
 				}
