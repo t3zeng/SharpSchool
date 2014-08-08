@@ -14,7 +14,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Setup {
 	
-	
 	public Setup(String n, String i, String s, String p) throws IOException, DocumentException, InterruptedException
 	{
 		//initializes the driver that does everything
@@ -49,7 +48,14 @@ public class Setup {
 		for(int j = info.getIndex()-1; j >= 0; j--)
 		{
 			System.out.println(info.getURL(j));
-			System.out.println("Current weight:"+info.getWeight(j)+"\nNext weight:"+info.getWeight(j-1));
+			try
+			{
+				System.out.println("Current weight:"+info.getWeight(j)+"\nNext weight:"+info.getWeight(j-1));
+			}
+			catch(ArrayIndexOutOfBoundsException e)
+			{
+				System.out.println("Current weight:"+info.getWeight(j));
+			}
 			
 			if(!info.getURL(j).contains(oldSite) && info.getURL(j).contains("http"))
 			{
@@ -72,6 +78,7 @@ public class Setup {
 			{
 				for(int k=0;k<=(info.getWeight(j)-info.getWeight(j-1));k++)
 				{
+					System.out.println(isExternal[j+k]);
 					if(isExternal[j+k])
 					{
 						driver.navigate().back();

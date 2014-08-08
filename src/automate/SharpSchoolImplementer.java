@@ -57,7 +57,6 @@ public class SharpSchoolImplementer {
 	        	driver.navigate().refresh();
 	        	Alert alert = driver.switchTo().alert(); 
 	            alert.accept();
-	            Thread.sleep(1000);
 	            driver.switchTo().parentFrame();
 	        	//titleQuery = driver.findElements(By.tagName("input")).get(8);
 	        	titleQuery = driver.findElement(By.xpath("//input[@size='60']"));
