@@ -34,11 +34,11 @@ public class XML {
 		    for(String line; (line = br.readLine()) != null; ) {
 		        // process the line.
 		    	xml+=line+"\n";
-		    	if(line.startsWith("<") && !line.startsWith("</"))
+		    	if(line.contains("<") && !line.contains("</"))
 		    	{
 		    		stack.add(line);
 		    	}
-		    	else if(line.startsWith("</"))
+		    	else if(line.contains("</"))
 		    	{
 		    		String fix = ((String)stack.get(stack.size()-1)).replace('<', ' ');
 		    		fix = fix.replace('>', ' ');
